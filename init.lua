@@ -229,18 +229,6 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
 
-  {
-    'romgrk/barbar.nvim',
-    dependencies = {
-      'lewis6991/gitsigns.nvim',
-      'nvim-tree/nvim-web-devicons',
-    },
-    init = function()
-      vim.g.barbar_auto_setup = false
-    end,
-    opts = {},
-  },
-
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
@@ -267,6 +255,45 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
     },
+  },
+
+  -- Add nice tabs bar at top
+  {
+    'romgrk/barbar.nvim',
+    dependencies = {
+      'lewis6991/gitsigns.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+    init = function()
+      vim.g.barbar_auto_setup = false
+
+      -- Move to previous/next tab
+      vim.keymap.set('n', '<A-,>', '<Cmd>BufferPrevious<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<A-.>', '<Cmd>BufferNext<CR>', { noremap = true, silent = true })
+
+      -- Re-order tabs left/right
+      vim.keymap.set('n', '<A-<>', '<Cmd>BufferMovePrevious<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<A->>', '<Cmd>BufferMoveNext<CR>', { noremap = true, silent = true })
+
+      -- Pin/unpin buffer
+      vim.keymap.set('n', '<A-p>', '<Cmd>BufferPin<CR>', { noremap = true, silent = true })
+
+      -- Close buffer
+      vim.keymap.set('n', '<A-c>', '<Cmd>BufferClose<CR>', { noremap = true, silent = true })
+
+      -- Go to buffer in position
+      vim.keymap.set('n', '<A-1>', '<Cmd>BufferGoto 1<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<A-1>', '<Cmd>BufferGoto 2<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<A-1>', '<Cmd>BufferGoto 3<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<A-1>', '<Cmd>BufferGoto 4<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<A-1>', '<Cmd>BufferGoto 5<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<A-1>', '<Cmd>BufferGoto 6<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<A-1>', '<Cmd>BufferGoto 7<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<A-1>', '<Cmd>BufferGoto 8<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<A-1>', '<Cmd>BufferGoto 9<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<A-1>', '<Cmd>BufferLast<CR>', { noremap = true, silent = true })
+    end,
+    opts = {},
   },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
@@ -640,6 +667,9 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
         --
+        zls = {
+          cmd = { '/usr/local/bin/zls' },
+        },
 
         lua_ls = {
           -- cmd = {...},
@@ -722,6 +752,7 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        zig = { 'zig fmt' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -843,6 +874,10 @@ require('lazy').setup({
           { name = 'luasnip' },
           { name = 'path' },
         },
+        window = {
+          completion = { border = 'rounded' },
+          documentation = { border = 'rounded' },
+        },
       }
     end,
   },
@@ -935,6 +970,7 @@ require('lazy').setup({
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
+      require('mini.pairs').setup()
     end,
   },
   { -- Highlight, edit, and navigate code
